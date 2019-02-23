@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        button_add.setOnClickListener { startActivity(AddTaskActivity::class.java) }
+        button_add.setOnClickListener { AddTaskPopup(this).show() }
 
         loadList()
     }

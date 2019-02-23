@@ -22,8 +22,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".AddTaskActivity"/>
-
     </application>
 
 </manifest>
