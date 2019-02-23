@@ -5,6 +5,7 @@ import android.os.Bundle
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_add_task.*
 import ru.falseteam.tasks.realm.model.Task
+import ru.falseteam.tasks.realm.model.TaskFields
 
 class AddTaskActivity : AppCompatActivity() {
 
@@ -22,7 +23,7 @@ class AddTaskActivity : AppCompatActivity() {
     private fun saveTaskToDb() {
         val task = Task(title = edit_text.text.toString())
         Realm.getDefaultInstance().executeTransaction {
-            val max = it.where(Task::class.java).max("id")
+            val max = it.where(Task::class.java).max(TaskFields.ID)
             task.id = if (max == null) 0 else max.toInt() + 1
             it.insertOrUpdate(task)
         }
