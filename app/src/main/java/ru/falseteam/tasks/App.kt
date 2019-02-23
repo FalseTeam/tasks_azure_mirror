@@ -12,11 +12,12 @@ class App : Application() {
     }
 
     private fun initRealm() {
+        Realm.init(this)
+
         val config = RealmConfiguration.Builder()
                 .name("main.realm")
                 .build()
 
-        Realm.init(this)
         Realm.setDefaultConfiguration(config)
     }
 }
