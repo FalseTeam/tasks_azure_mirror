@@ -7,15 +7,22 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import io.realm.Realm
+import ru.falseteam.tasks.App
 import ru.falseteam.tasks.R
 import ru.falseteam.tasks.realm.model.Task
 import ru.falseteam.tasks.realm.model.TaskFields
+import ru.falseteam.tasks.realm.repository.TaskRepository
+import javax.inject.Inject
 
 
-class AddTaskPopup(private val context: Context) {
+class AddTaskPopup(context: Context) {
     private val dialog = Dialog(context)
 
+    @Inject
+    lateinit var taskRepository: TaskRepository
+
     init {
+        App.dagger.inject(this)
         dialog.setContentView(R.layout.add_task_popup)
         setupLayoutParams()
 
@@ -32,20 +39,12 @@ class AddTaskPopup(private val context: Context) {
         }
 
         save.setOnClickListener {
-            saveTaskToDb(Task(title = title.text.toString(), notes = notes.text.toString()))
+            taskRepository.saveNew(Task(title = title.text.toString(), notes = notes.text.toString()))
             dialog.dismiss()
         }
 
         close.setOnClickListener { dialog.dismiss() }
 
-    }
-
-    private fun saveTaskToDb(task: Task) {
-        Realm.getDefaultInstance().executeTransaction {
-            val max = it.where(Task::class.java).max(TaskFields.ID)
-            task.id = if (max == null) 0 else max.toInt() + 1
-            it.insertOrUpdate(task)
-        }
     }
 
     fun show() {
