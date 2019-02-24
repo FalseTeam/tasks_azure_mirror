@@ -5,10 +5,16 @@ import io.realm.Realm
 import io.realm.RealmConfiguration
 
 class App : Application() {
+    companion object {
+        lateinit var dagger: AppComponent
+            private set
+    }
+
     override fun onCreate() {
         super.onCreate()
 
         initRealm()
+        initDagger()
     }
 
     private fun initRealm() {
@@ -19,5 +25,9 @@ class App : Application() {
                 .build()
 
         Realm.setDefaultConfiguration(config)
+    }
+
+    private fun initDagger() {
+        dagger = DaggerAppComponent.create()
     }
 }

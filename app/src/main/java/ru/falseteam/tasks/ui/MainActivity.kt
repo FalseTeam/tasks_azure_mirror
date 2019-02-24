@@ -8,9 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import io.realm.Realm
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_main.*
+import ru.falseteam.tasks.App
 import ru.falseteam.tasks.R
 import ru.falseteam.tasks.realm.model.Task
 import ru.falseteam.tasks.realm.repository.TaskRepository
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        DaggerUiComponent.create().inject(this)
+        App.dagger.inject(this)
         setContentView(R.layout.activity_main)
         button_add.setOnClickListener { AddTaskPopup(this).show() }
 
