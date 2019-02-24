@@ -1,4 +1,4 @@
-package ru.falseteam.tasks
+package ru.falseteam.tasks.ui
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -11,12 +11,18 @@ import android.widget.TextView
 import io.realm.Realm
 import io.realm.RealmResults
 import kotlinx.android.synthetic.main.activity_main.*
+import ru.falseteam.tasks.R
 import ru.falseteam.tasks.realm.model.Task
+import ru.falseteam.tasks.realm.repository.TaskRepository
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
+    @Inject
+    lateinit var taskRepository: TaskRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        DaggerUiComponent.create().inject(this)
         setContentView(R.layout.activity_main)
         button_add.setOnClickListener { AddTaskPopup(this).show() }
 
@@ -24,7 +30,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadList() {
-        val elements = Realm.getDefaultInstance().where(Task::class.java).findAll()
+        val elements = taskRepository.getAll()
         recycler_view.adapter = Adapter(elements)
         recycler_view.layoutManager = LinearLayoutManager(this)
         elements.addChangeListener { _ -> recycler_view.adapter.notifyDataSetChanged() }

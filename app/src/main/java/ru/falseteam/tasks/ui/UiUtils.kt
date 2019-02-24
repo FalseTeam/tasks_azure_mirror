@@ -1,4 +1,4 @@
-package ru.falseteam.tasks
+package ru.falseteam.tasks.ui
 
 import android.content.Context
 import android.content.Intent

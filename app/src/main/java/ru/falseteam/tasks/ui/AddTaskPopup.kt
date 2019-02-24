@@ -1,4 +1,4 @@
-package ru.falseteam.tasks
+package ru.falseteam.tasks.ui
 
 import android.app.Dialog
 import android.content.Context
@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import io.realm.Realm
+import ru.falseteam.tasks.R
 import ru.falseteam.tasks.realm.model.Task
 import ru.falseteam.tasks.realm.model.TaskFields
 
