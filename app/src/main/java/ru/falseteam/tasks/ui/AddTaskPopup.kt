@@ -6,11 +6,9 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import io.realm.Realm
 import ru.falseteam.tasks.App
 import ru.falseteam.tasks.R
 import ru.falseteam.tasks.realm.model.Task
-import ru.falseteam.tasks.realm.model.TaskFields
 import ru.falseteam.tasks.realm.repository.TaskRepository
 import javax.inject.Inject
 
@@ -26,7 +24,7 @@ class AddTaskPopup(context: Context) {
         dialog.setContentView(R.layout.add_task_popup)
         setupLayoutParams()
 
-        dialog.window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+        dialog.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
 
         val title = dialog.findViewById<EditText>(R.id.title)
         val notes = dialog.findViewById<EditText>(R.id.notes)
@@ -44,19 +42,17 @@ class AddTaskPopup(context: Context) {
         }
 
         close.setOnClickListener { dialog.dismiss() }
-
     }
 
     fun show() {
         dialog.show()
-//        context.openKeyboard()
     }
 
     private fun setupLayoutParams() {
         val layoutParams = WindowManager.LayoutParams()
-        layoutParams.copyFrom(dialog.window.attributes)
+        layoutParams.copyFrom(dialog.window!!.attributes)
         layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT
         layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT
-        dialog.window.attributes = layoutParams
+        dialog.window!!.attributes = layoutParams
     }
 }

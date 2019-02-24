@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         val elements = taskRepository.getAll()
         recycler_view.adapter = Adapter(elements)
         recycler_view.layoutManager = LinearLayoutManager(this)
-        elements.addChangeListener { _ -> recycler_view.adapter.notifyDataSetChanged() }
+        elements.addChangeListener { _ -> (recycler_view.adapter as Adapter).notifyDataSetChanged() }
     }
 
 
