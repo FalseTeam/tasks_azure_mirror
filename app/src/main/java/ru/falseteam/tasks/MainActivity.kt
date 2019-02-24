@@ -31,9 +31,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    class Adapter(val element: RealmResults<Task>) : RecyclerView.Adapter<Adapter.ViewHolder>() {
+    class Adapter(private val element: RealmResults<Task>) : RecyclerView.Adapter<Adapter.ViewHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(android.R.layout.simple_list_item_1, parent, false)
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.task_list_element, parent, false)
             return ViewHolder(view)
         }
 
@@ -42,11 +42,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.text.text = element[position]!!.title
+            holder.title.text = element[position]!!.title
         }
 
         class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            val text: TextView = itemView.findViewById(android.R.id.text1)
+            val title: TextView = itemView.findViewById(R.id.text_title)
         }
     }
 }
