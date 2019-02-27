@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 28
@@ -32,6 +31,14 @@ dependencies {
 
 //    implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
 //    kapt "androidx.lifecycle:lifecycle-compiler:2.0.0"
+
+    //room
+    def room_version = "2.1.0-alpha04"
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    //implementation "androidx.room:room-rxjava2:$room_version"
+    //implementation "androidx.room:room-coroutines:$room_version"
+    testImplementation "androidx.room:room-testing:$room_version"
 
     implementation group: 'com.google.dagger', name: 'dagger', version: '2.13'
     kapt 'com.google.dagger:dagger-compiler:2.13'

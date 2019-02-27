@@ -6,10 +6,10 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import ru.falseteam.tasks.App
+import ru.falseteam.tasks.app.App
 import ru.falseteam.tasks.R
-import ru.falseteam.tasks.realm.model.Task
-import ru.falseteam.tasks.realm.repository.TaskRepository
+import ru.falseteam.tasks.database.dao.TaskDao
+import ru.falseteam.tasks.database.entity.Task
 import javax.inject.Inject
 
 
@@ -17,7 +17,7 @@ class AddTaskPopup(context: Context) {
     private val dialog = Dialog(context)
 
     @Inject
-    lateinit var taskRepository: TaskRepository
+    lateinit var taskDao: TaskDao
 
     init {
         App.dagger.inject(this)
@@ -37,7 +37,7 @@ class AddTaskPopup(context: Context) {
         }
 
         save.setOnClickListener {
-            taskRepository.saveNew(Task(title = title.text.toString(), notes = notes.text.toString()))
+            taskDao.insert(Task(title = title.text.toString(), notes = notes.text.toString()))
             dialog.dismiss()
         }
 
