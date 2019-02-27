@@ -12,9 +12,8 @@ class DatabaseModule {
     @Provides
     @Singleton
     //TODO delete this
-    //TODO remove main thread queries
     fun getDatabase(context: Context): Database =
-            Room.databaseBuilder(context, Database::class.java, "database").allowMainThreadQueries().build()
+            Room.databaseBuilder(context, Database::class.java, "database").build()
 
     @Provides
     fun getTaskDao(database: Database): TaskDao = database.getTaskDao()

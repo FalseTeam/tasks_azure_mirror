@@ -1,20 +1,21 @@
 package ru.falseteam.tasks.ui
 
 import android.app.Dialog
-import android.content.Context
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import ru.falseteam.tasks.app.App
+import androidx.activity.ComponentActivity
+import io.reactivex.android.schedulers.AndroidSchedulers
 import ru.falseteam.tasks.R
+import ru.falseteam.tasks.app.App
 import ru.falseteam.tasks.database.dao.TaskDao
 import ru.falseteam.tasks.database.entity.Task
 import javax.inject.Inject
 
 
-class AddTaskPopup(context: Context) {
-    private val dialog = Dialog(context)
+class AddTaskPopup(activity: ComponentActivity) {
+    private val dialog = Dialog(activity)
 
     @Inject
     lateinit var taskDao: TaskDao
@@ -37,8 +38,12 @@ class AddTaskPopup(context: Context) {
         }
 
         save.setOnClickListener {
-            taskDao.insert(Task(title = title.text.toString(), notes = notes.text.toString()))
-            dialog.dismiss()
+            save.isEnabled = false //TODO fix this
+            val insertOnIO = taskDao.insertOnIO(Task(title = title.text.toString(), notes = notes.text.toString()))
+            insertOnIO
+                    .observeOn(AndroidSchedulers.mainThread())
+//                    .bindToLifecycle(AndroidLifecycle.createLifecycleProvider(activity))//TODO check
+                    .subscribe { _ -> dialog.dismiss() }
         }
 
         close.setOnClickListener { dialog.dismiss() }
