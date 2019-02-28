@@ -13,7 +13,9 @@ class DatabaseModule {
     @Singleton
     //TODO delete this
     fun getDatabase(context: Context): Database =
-            Room.databaseBuilder(context, Database::class.java, "database").build()
+            Room.databaseBuilder(context, Database::class.java, "database")
+                    .fallbackToDestructiveMigration()
+                    .build()
 
     @Provides
     fun getTaskDao(database: Database): TaskDao = database.getTaskDao()
