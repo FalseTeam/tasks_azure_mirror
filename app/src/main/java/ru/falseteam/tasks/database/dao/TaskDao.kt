@@ -11,7 +11,7 @@ import ru.falseteam.tasks.database.entity.Task
 
 @Dao
 abstract class TaskDao {
-    @Query("SELECT * from tasks")
+    @Query("SELECT * from tasks ORDER BY priority ASC, create_timestamp DESC")
     abstract fun getAllLiveData(): LiveData<List<Task>>
 
     @Insert
