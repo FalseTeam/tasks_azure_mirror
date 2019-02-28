@@ -1,24 +1,24 @@
 package ru.falseteam.tasks.ui
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import io.realm.RealmResults
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
-import ru.falseteam.tasks.App
 import ru.falseteam.tasks.R
-import ru.falseteam.tasks.realm.model.Task
-import ru.falseteam.tasks.realm.repository.TaskRepository
+import ru.falseteam.tasks.app.App
+import ru.falseteam.tasks.database.dao.TaskDao
+import ru.falseteam.tasks.database.entity.Task
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
     @Inject
-    lateinit var taskRepository: TaskRepository
+    lateinit var taskDao: TaskDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,25 +30,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadList() {
-        val elements = taskRepository.getAll()
-        recycler_view.adapter = Adapter(elements)
+        val adapter = Adapter(emptyList())
+        val elements = taskDao.getAllLiveData()
+        elements.observe(this, Observer {
+            adapter.element = it
+            adapter.notifyDataSetChanged()
+        })
+        recycler_view.adapter = adapter
         recycler_view.layoutManager = LinearLayoutManager(this)
-        elements.addChangeListener { _ -> (recycler_view.adapter as Adapter).notifyDataSetChanged() }
     }
 
 
-    class Adapter(private val element: RealmResults<Task>) : RecyclerView.Adapter<Adapter.ViewHolder>() {
+    class Adapter(var element: List<Task>) : RecyclerView.Adapter<Adapter.ViewHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.task_list_element, parent, false)
             return ViewHolder(view)
         }
 
-        override fun getItemCount(): Int {
-            return if (element.isValid) element.size else 0
-        }
+        override fun getItemCount(): Int = element.size
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.title.text = element[position]!!.title
+            holder.title.text = element[position].title
         }
 
         class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
