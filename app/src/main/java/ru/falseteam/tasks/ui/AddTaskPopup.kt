@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.activity.ComponentActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import io.reactivex.android.schedulers.AndroidSchedulers
 import ru.falseteam.tasks.R
 import ru.falseteam.tasks.app.App
@@ -29,7 +30,8 @@ class AddTaskPopup(activity: ComponentActivity) {
 
         val title = dialog.findViewById<EditText>(R.id.title)
         val notes = dialog.findViewById<EditText>(R.id.notes)
-        val save = dialog.findViewById<Button>(R.id.btn_save)
+        val save = dialog.findViewById<ImageView>(R.id.btn_save)
+        val swap = dialog.findViewById<ImageView>(R.id.btn_swap)
         val close = dialog.findViewById<ImageView>(R.id.btn_close)
         save.isEnabled = false
 
@@ -44,6 +46,12 @@ class AddTaskPopup(activity: ComponentActivity) {
                     .observeOn(AndroidSchedulers.mainThread())
 //                    .bindToLifecycle(AndroidLifecycle.createLifecycleProvider(activity))//TODO check
                     .subscribe { _ -> dialog.dismiss() }
+        }
+
+        swap.setOnClickListener {
+            val params = save.layoutParams
+            save.layoutParams = close.layoutParams
+            close.layoutParams = params
         }
 
         close.setOnClickListener { dialog.dismiss() }
