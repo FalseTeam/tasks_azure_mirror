@@ -17,12 +17,34 @@ android {
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+    signingConfigs {
+        create("shared") {
+            storeFile = file("../keystore/shared.keystore")
+            storePassword = "Qwerty!@"
+            keyAlias = "shared"
+            keyPassword = "Qwerty!@"
+        }
+    }
+
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
+            signingConfig = signingConfigs.getByName("shared")
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
         }
+
+        getByName("debug") {
+            signingConfig = signingConfigs.getByName("shared")
+        }
     }
+
+    sourceSets {
+        getByName("debug") {
+            java.srcDirs("src/debug/main/java")
+            resources.srcDirs("src/debug/main/res")
+        }
+    }
+
 }
 
 dependencies {
@@ -38,19 +60,19 @@ dependencies {
     kapt("com.google.dagger:dagger-compiler:2.13")
 
     // lifecycle
-    implementation ("androidx.lifecycle:lifecycle-extensions:2.0.0")
-    implementation ("androidx.lifecycle:lifecycle-reactivestreams:2.0.0")
-    kapt ("androidx.lifecycle:lifecycle-compiler:2.0.0")
+    implementation("androidx.lifecycle:lifecycle-extensions:2.0.0")
+    implementation("androidx.lifecycle:lifecycle-reactivestreams:2.0.0")
+    kapt("androidx.lifecycle:lifecycle-compiler:2.0.0")
 
     // room
-    implementation ("androidx.room:room-runtime:2.1.0-alpha04")
-    kapt ("androidx.room:room-compiler:2.1.0-alpha04")
-    implementation ("androidx.room:room-rxjava2:2.1.0-alpha04")
-    testImplementation ("androidx.room:room-testing:2.1.0-alpha04")
+    implementation("androidx.room:room-runtime:2.1.0-alpha04")
+    kapt("androidx.room:room-compiler:2.1.0-alpha04")
+    implementation("androidx.room:room-rxjava2:2.1.0-alpha04")
+    testImplementation("androidx.room:room-testing:2.1.0-alpha04")
 
     // RxJava
-    implementation ("io.reactivex.rxjava2:rxjava:2.2.6")
-    implementation ("io.reactivex.rxjava2:rxandroid:2.1.1")
+    implementation("io.reactivex.rxjava2:rxjava:2.2.6")
+    implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
 
     testImplementation("junit:junit:4.12")
 
