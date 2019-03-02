@@ -8,7 +8,7 @@ import javax.inject.Singleton
 
 @Component(modules = [AppModule::class, DatabaseModule::class])
 @Singleton
-interface AppComponent {
+interface AppComponent : FlavourComponent {
     fun inject(mainActivity: MainActivity)
     fun inject(addTaskPopup: AddTaskPopup)
 }
