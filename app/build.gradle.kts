@@ -60,6 +60,11 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-reactivestreams:2.0.0")
     kapt("androidx.lifecycle:lifecycle-compiler:2.0.0")
 
+    // paging
+    implementation("androidx.paging:paging-runtime-ktx:2.1.0")
+    testImplementation("androidx.paging:paging-common-ktx:2.1.0")
+    implementation ("androidx.paging:paging-rxjava2-ktx:2.1.0")
+
     // room
     implementation("androidx.room:room-runtime:2.1.0-alpha04")
     kapt("androidx.room:room-compiler:2.1.0-alpha04")
