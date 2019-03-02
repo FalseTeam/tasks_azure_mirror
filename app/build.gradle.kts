@@ -17,6 +17,9 @@ android {
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    dataBinding { isEnabled = true }
+
     signingConfigs {
         create("shared") {
             storeFile = file("../keystore/shared.keystore")
@@ -53,6 +56,7 @@ dependencies {
 
     // lifecycle
     implementation("androidx.lifecycle:lifecycle-extensions:2.0.0")
+    implementation("androidx.lifecycle:lifecycle-runtime:2.0.0")
     implementation("androidx.lifecycle:lifecycle-reactivestreams:2.0.0")
     kapt("androidx.lifecycle:lifecycle-compiler:2.0.0")
 
