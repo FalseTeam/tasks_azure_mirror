@@ -37,14 +37,6 @@ android {
             signingConfig = signingConfigs.getByName("shared")
         }
     }
-
-    sourceSets {
-        getByName("debug") {
-            java.srcDirs("src/debug/main/java")
-            resources.srcDirs("src/debug/main/res")
-        }
-    }
-
 }
 
 dependencies {
