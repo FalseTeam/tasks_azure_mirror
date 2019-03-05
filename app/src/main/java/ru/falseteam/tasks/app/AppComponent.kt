@@ -4,7 +4,6 @@ import dagger.Component
 import ru.falseteam.tasks.database.DatabaseModule
 import ru.falseteam.tasks.ui.AddTaskPopup
 import ru.falseteam.tasks.ui.MainActivity
-import ru.falseteam.tasks.ui.TaskListFragment
 import ru.falseteam.tasks.ui.model.TaskListViewModel
 import javax.inject.Singleton
 

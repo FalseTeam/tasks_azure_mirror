@@ -9,6 +9,7 @@ import javax.inject.Inject
 
 class DebugActivity : AppCompatActivity() {
 
+    @Suppress("unused") //TODO добавьте кнопки ААА!!!
     @Inject
     lateinit var taskDao: TaskDao
 

@@ -2,11 +2,9 @@ package ru.falseteam.tasks.ui
 
 import android.app.Dialog
 import android.view.WindowManager
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.activity.ComponentActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import io.reactivex.android.schedulers.AndroidSchedulers
 import ru.falseteam.tasks.R
 import ru.falseteam.tasks.app.App

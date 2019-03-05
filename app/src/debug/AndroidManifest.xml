@@ -4,7 +4,7 @@
     <application tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name="ru.falseteam.tasks.ui.DebugActivity"
-            android:label="Debug">
+            android:label="@string/debug">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
