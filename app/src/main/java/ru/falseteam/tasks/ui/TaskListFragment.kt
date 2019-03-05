@@ -45,12 +45,12 @@ class TaskListFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.bind(getItem(position)!!)
+            holder.bind(getItem(position))
         }
 
         class ViewHolder(private val binding: TaskListElementBinding) :
                 RecyclerView.ViewHolder(binding.root) {
-            fun bind(task: Task) {
+            fun bind(task: Task?) {
                 binding.task = task
                 binding.executePendingBindings()
             }
