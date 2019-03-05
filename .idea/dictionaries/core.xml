@@ -1,8 +1,12 @@
 <component name="ProjectDictionaryState">
   <dictionary name="core">
     <words>
+      <w>constraintlayout</w>
       <w>falseteam</w>
+      <w>kapt</w>
       <w>recyclerview</w>
+      <w>rxandroid</w>
+      <w>rxjava</w>
     </words>
   </dictionary>
 </component>
