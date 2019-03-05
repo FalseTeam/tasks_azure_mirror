@@ -4,23 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_task_list.*
 import ru.falseteam.tasks.R
-import ru.falseteam.tasks.app.App
-import ru.falseteam.tasks.database.dao.TaskDao
 import ru.falseteam.tasks.database.entity.Task
 import ru.falseteam.tasks.databinding.TaskListElementBinding
-import javax.inject.Inject
+import ru.falseteam.tasks.ui.model.TaskListViewModel
 
 class TaskListFragment : Fragment() {
-    @Inject
-    lateinit var taskDao: TaskDao
+    private lateinit var viewModel: TaskListViewModel
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -29,23 +28,16 @@ class TaskListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        App.dagger.inject(this)
+        viewModel = ViewModelProviders.of(this).get(TaskListViewModel::class.java)
 
-        loadList()
-    }
-
-    private fun loadList() {
-        val adapter = Adapter(emptyList())
-        val elements = taskDao.getAllLiveData()
-        elements.observe(this, Observer {
-            adapter.element = it
-            adapter.notifyDataSetChanged()
-        })
+        val adapter = Adapter()
         list.adapter = adapter
-        list.layoutManager = LinearLayoutManager(context)
+        viewModel.taskList.observe(this, Observer {
+            adapter.submitList(it)
+        })
     }
 
-    class Adapter(var element: List<Task>) : RecyclerView.Adapter<Adapter.ViewHolder>() {
+    class Adapter : PagedListAdapter<Task, Adapter.ViewHolder>(diffCallback) {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val inflater = LayoutInflater.from(parent.context)
             val binding = DataBindingUtil.inflate<TaskListElementBinding>(
@@ -53,16 +45,25 @@ class TaskListFragment : Fragment() {
             return ViewHolder(binding)
         }
 
-        override fun getItemCount(): Int = element.size
-
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.bind(element[position])
+            holder.bind(getItem(position)!!)
         }
 
-        class ViewHolder(private val binding: TaskListElementBinding) : RecyclerView.ViewHolder(binding.root) {
+        class ViewHolder(private val binding: TaskListElementBinding) :
+                RecyclerView.ViewHolder(binding.root) {
             fun bind(task: Task) {
                 binding.task = task
                 binding.executePendingBindings()
+            }
+        }
+
+        companion object {
+            private val diffCallback = object : DiffUtil.ItemCallback<Task>() {
+                override fun areItemsTheSame(oldItem: Task, newItem: Task): Boolean =
+                        oldItem.id == newItem.id
+
+                override fun areContentsTheSame(oldItem: Task, newItem: Task): Boolean =
+                        oldItem == newItem
             }
         }
     }
