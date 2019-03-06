@@ -1,10 +1,9 @@
 package ru.falseteam.tasks.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
+import kotlinx.android.synthetic.debug.activity_debug.*
 import ru.falseteam.tasks.R
 import ru.falseteam.tasks.app.App
 import ru.falseteam.tasks.database.dao.TaskDao
@@ -21,23 +20,19 @@ class DebugActivity : AppCompatActivity() {
         setContentView(R.layout.activity_debug)
         App.dagger.inject(this)
 
-        val delete = findViewById<Button>(R.id.btn_delete_all)
-        delete.setOnClickListener{
-            taskDao.deleteAllOnIO().observeOn(AndroidSchedulers.mainThread()).subscribe{
-                count -> Toast.makeText(this,"deleted $count items",Toast.LENGTH_SHORT).show()
-            }
+        btn_delete_all.setOnClickListener {
+            taskDao.deleteAllOnIO()
+                    .observeOn(AndroidSchedulers.mainThread()).subscribe { count ->
+                        showToast("deleted $count items")
+                    }
         }
 
-        val add = findViewById<Button>(R.id.btn_add_10_items)
-        add.setOnClickListener{
-            val arrayList = ArrayList<Task>()
-
-            (0 until 10).forEach {
-                arrayList.add( Task(title = "task$it"))
-            }
-            taskDao.insertOnIO(arrayList).observeOn(AndroidSchedulers.mainThread()).subscribe{
-                count -> Toast.makeText(this,"added $count items",Toast.LENGTH_SHORT).show()
-            }
+        btn_add_10_items.setOnClickListener {
+            val list = (0 until 10).map { Task(title = "task$it") }
+            taskDao.insertOnIO(list)
+                    .observeOn(AndroidSchedulers.mainThread()).subscribe { count ->
+                        showToast("added $count items")
+                    }
         }
     }
 }

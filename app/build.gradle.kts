@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.config.AnalysisFlags.experimental
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
@@ -5,6 +6,10 @@ plugins {
     kotlin("android")
     kotlin("android.extensions")
     kotlin("kapt")
+}
+
+androidExtensions {
+    isExperimental = true
 }
 
 android {
