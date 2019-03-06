@@ -15,11 +15,24 @@ abstract class TaskDao {
     abstract fun getAllLiveData(): LiveData<List<Task>>
 
     @Query("SELECT * from tasks ORDER BY priority ASC, create_timestamp DESC")
-    abstract fun getAllDataSource(): DataSource.Factory<Int,Task>
+    abstract fun getAllDataSource(): DataSource.Factory<Int, Task>
+
+    @Query("DELETE from tasks")
+    abstract fun deleteAll(): Int
 
     @Insert
     abstract fun insert(task: Task)
 
+    @Insert
+    abstract fun insert(task: List<Task>)
+
     fun insertOnIO(task: Task): Single<Unit> =
-            Single.fromCallable {insert(task)}.subscribeOn(Schedulers.io())
+            Single.fromCallable { insert(task) }.subscribeOn(Schedulers.io())
+
+    fun insertOnIO(task: List<Task>): Single<Unit> =
+            Single.fromCallable { insert(task) }.subscribeOn(Schedulers.io())
+
+    fun deleteAllOnIO(): Single<Int> =
+            Single.fromCallable { deleteAll() }.subscribeOn(Schedulers.io())
+
 }
