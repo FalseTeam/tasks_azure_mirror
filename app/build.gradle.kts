@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.config.AnalysisFlags.experimental
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
 
 plugins {
