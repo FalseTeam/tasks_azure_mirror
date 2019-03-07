@@ -8,8 +8,8 @@ import androidx.activity.ComponentActivity
 import io.reactivex.android.schedulers.AndroidSchedulers
 import ru.falseteam.tasks.R
 import ru.falseteam.tasks.app.App
-import ru.falseteam.tasks.database.dao.TaskDao
 import ru.falseteam.tasks.database.entity.Task
+import ru.falseteam.tasks.database.repository.TaskRepository
 import javax.inject.Inject
 
 
@@ -17,7 +17,7 @@ class AddTaskPopup(activity: ComponentActivity) {
     private val dialog = Dialog(activity)
 
     @Inject
-    lateinit var taskDao: TaskDao
+    lateinit var taskRepository: TaskRepository
 
     init {
         App.dagger.inject(this)
@@ -39,7 +39,7 @@ class AddTaskPopup(activity: ComponentActivity) {
 
         save.setOnClickListener {
             save.isEnabled = false //TODO fix this
-            val insertOnIO = taskDao.insertOnIO(Task(title = title.text.toString(), notes = notes.text.toString()))
+            val insertOnIO = taskRepository.insertOnIO(Task(title = title.text.toString(), notes = notes.text.toString()))
             insertOnIO
                     .observeOn(AndroidSchedulers.mainThread())
 //                    .bindToLifecycle(AndroidLifecycle.createLifecycleProvider(activity))//TODO check

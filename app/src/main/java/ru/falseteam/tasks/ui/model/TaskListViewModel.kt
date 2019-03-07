@@ -5,14 +5,14 @@ import androidx.lifecycle.ViewModel
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
 import ru.falseteam.tasks.app.App
-import ru.falseteam.tasks.database.dao.TaskDao
 import ru.falseteam.tasks.database.entity.Task
+import ru.falseteam.tasks.database.repository.TaskRepository
 import java.util.concurrent.Executors
 import javax.inject.Inject
 
 class TaskListViewModel : ViewModel() {
     @Inject
-    lateinit var taskDao: TaskDao
+    lateinit var taskRepository: TaskRepository
 
     val taskList: LiveData<PagedList<Task>>
 
@@ -24,7 +24,7 @@ class TaskListViewModel : ViewModel() {
                 .setPageSize(20)
                 .build()
 
-        taskList = taskDao.getAllDataSource().toLiveData(
+        taskList = taskRepository.getAllDataSource().toLiveData(
                 config = config,
                 fetchExecutor = Executors.newSingleThreadExecutor()
         )

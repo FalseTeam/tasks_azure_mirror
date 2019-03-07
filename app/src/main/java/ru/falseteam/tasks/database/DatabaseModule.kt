@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
-import ru.falseteam.tasks.database.dao.TaskDao
+import ru.falseteam.tasks.database.repository.TaskRepository
 import javax.inject.Singleton
 
 @Module
@@ -18,5 +18,5 @@ class DatabaseModule {
                     .build()
 
     @Provides
-    fun getTaskDao(database: Database): TaskDao = database.getTaskDao()
+    fun getTaskRepository(database: Database) = TaskRepository(database.getTaskDao())
 }
