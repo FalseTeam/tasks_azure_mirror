@@ -79,6 +79,11 @@ dependencies {
     implementation("io.reactivex.rxjava2:rxjava:2.2.6")
     implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
 
+    //leakcanary
+    debugImplementation ("com.squareup.leakcanary:leakcanary-android:1.6.3")
+    releaseImplementation ("com.squareup.leakcanary:leakcanary-android-no-op:1.6.3")
+    debugImplementation ("com.squareup.leakcanary:leakcanary-support-fragment:1.6.3")
+
     testImplementation("junit:junit:4.12")
 
     androidTestImplementation("androidx.test:runner:1.1.2-alpha01")
