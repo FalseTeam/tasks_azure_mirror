@@ -29,4 +29,8 @@ class TaskListViewModel : ViewModel() {
                 fetchExecutor = Executors.newSingleThreadExecutor()
         )
     }
+
+    fun updateTask(task: Task) = taskRepository.updateAsync(task)
+
+    fun updateComplete(task: Task) = taskRepository.updateCompleteAsync(task.id!!, task.isComplete)
 }

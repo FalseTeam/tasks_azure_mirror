@@ -39,7 +39,7 @@ class AddTaskPopup(activity: ComponentActivity) {
 
         save.setOnClickListener {
             save.isEnabled = false //TODO fix this
-            val insertOnIO = taskRepository.insertOnIO(Task(title = title.text.toString(), notes = notes.text.toString()))
+            val insertOnIO = taskRepository.insertAsync(Task(title = title.text.toString(), notes = notes.text.toString()))
             insertOnIO
                     .observeOn(AndroidSchedulers.mainThread())
 //                    .bindToLifecycle(AndroidLifecycle.createLifecycleProvider(activity))//TODO check

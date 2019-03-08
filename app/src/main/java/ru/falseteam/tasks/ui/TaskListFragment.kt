@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -36,7 +37,7 @@ class TaskListFragment : Fragment() {
         })
     }
 
-    class Adapter : PagedListAdapter<Task, Adapter.ViewHolder>(diffCallback) {
+    inner class Adapter : PagedListAdapter<Task, Adapter.ViewHolder>(diffCallback) {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val inflater = LayoutInflater.from(parent.context)
             val binding = DataBindingUtil.inflate<TaskListElementBinding>(
@@ -48,22 +49,30 @@ class TaskListFragment : Fragment() {
             holder.bind(getItem(position))
         }
 
-        class ViewHolder(private val binding: TaskListElementBinding) :
+        inner class ViewHolder(private val binding: TaskListElementBinding) :
                 RecyclerView.ViewHolder(binding.root) {
+            init {
+                binding.root.findViewById<CheckBox>(R.id.checkbox_is_complete).setOnClickListener {
+                    viewModel.updateComplete(binding.task!!).subscribe { t: Int? ->
+                        // todo тут ИНОГДА происходит дичь
+                    }
+                }
+            }
+
             fun bind(task: Task?) {
                 binding.task = task
                 binding.executePendingBindings()
             }
         }
+    }
 
-        companion object {
-            private val diffCallback = object : DiffUtil.ItemCallback<Task>() {
-                override fun areItemsTheSame(oldItem: Task, newItem: Task): Boolean =
-                        oldItem.id == newItem.id
+    companion object {
+        private val diffCallback = object : DiffUtil.ItemCallback<Task>() {
+            override fun areItemsTheSame(oldItem: Task, newItem: Task): Boolean =
+                    oldItem.id == newItem.id
 
-                override fun areContentsTheSame(oldItem: Task, newItem: Task): Boolean =
-                        oldItem == newItem
-            }
+            override fun areContentsTheSame(oldItem: Task, newItem: Task): Boolean =
+                    oldItem == newItem
         }
     }
 }

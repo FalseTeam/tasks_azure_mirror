@@ -1,15 +1,18 @@
 package ru.falseteam.tasks.database.repository
 
-import io.reactivex.Completable
-import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
 import ru.falseteam.tasks.database.dao.TaskDao
 import ru.falseteam.tasks.database.entity.Task
+import java.util.*
 
 class TaskRepository(taskDao: TaskDao) : AbstractRepository(), TaskDao by taskDao {
-    fun insertOnIO(task: Task) = asyncSingle { insert(task) }
+    fun insertAsync(task: Task) = asyncSingle { insert(task) }
 
-    fun insertOnIO(task: List<Task>) = asyncCompletable { insert(task) }
+    fun insertAsync(task: List<Task>) = asyncCompletable { insert(task) }
 
-    fun deleteAllOnIO() = asyncSingle { deleteAll() }
+    fun updateCompleteAsync(id: Long, complete: Boolean, date: Date = Date()) =
+            asyncSingle { updateComplete(id, complete, date) }
+
+    fun updateAsync(task: Task) = asyncSingle { update(task) }
+
+    fun deleteAllAsync() = asyncSingle { deleteAll() }
 }

@@ -5,9 +5,9 @@ import androidx.paging.DataSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
-import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
+import androidx.room.Update
 import ru.falseteam.tasks.database.entity.Task
+import java.util.*
 
 @Dao
 interface TaskDao {
@@ -26,4 +26,9 @@ interface TaskDao {
     @Insert
     fun insert(task: List<Task>)
 
+    @Query("UPDATE tasks SET is_complete = :complete, last_edit_timestamp=:date WHERE id = :id")
+    fun updateComplete(id: Long, complete: Boolean, date: Date = Date()): Int
+
+    @Update
+    fun update(task: Task): Int
 }

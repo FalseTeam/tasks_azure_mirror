@@ -21,7 +21,7 @@ class DebugActivity : AppCompatActivity() {
         App.dagger.inject(this)
 
         btn_delete_all.setOnClickListener {
-            taskRepository.deleteAllOnIO()
+            taskRepository.deleteAllAsync()
                     .observeOn(AndroidSchedulers.mainThread()).subscribe { count ->
                         showToast("deleted $count items")
                     }
@@ -29,7 +29,7 @@ class DebugActivity : AppCompatActivity() {
 
         btn_add_10_items.setOnClickListener {
             val list = (0 until 10).map { Task(title = "task$it") }
-            taskRepository.insertOnIO(list)
+            taskRepository.insertAsync(list)
                     .observeOn(AndroidSchedulers.mainThread()).subscribe {
                         showToast("items added")
                     }
