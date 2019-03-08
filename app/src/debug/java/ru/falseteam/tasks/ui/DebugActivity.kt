@@ -30,8 +30,8 @@ class DebugActivity : AppCompatActivity() {
         btn_add_10_items.setOnClickListener {
             val list = (0 until 10).map { Task(title = "task$it") }
             taskRepository.insertOnIO(list)
-                    .observeOn(AndroidSchedulers.mainThread()).subscribe { count ->
-                        showToast("added $count items")
+                    .observeOn(AndroidSchedulers.mainThread()).subscribe {
+                        showToast("items added")
                     }
         }
     }
