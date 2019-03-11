@@ -22,13 +22,13 @@ class EspressoTestExample {
 
     @Test
     fun add_new_task() {
-        val title = "Espresso"
-        // Type text and then press the button.
-        onView(withId(R.id.button_add))
-                .perform(click())
-        onView(withId(R.id.title)).perform(typeText(title), closeSoftKeyboard())
-        onView(withId(R.id.btn_save)).perform(click())
-
-        onView(withText(title)).check(matches(isDisplayed()))
+        (0 until 5).forEach {
+            val title = "Espresso $it"
+            // Type text and then press the button.
+            onView(withId(R.id.button_add))
+                    .perform(click())
+            onView(withId(R.id.title)).perform(typeText(title), closeSoftKeyboard())
+            onView(withId(R.id.btn_save)).perform(click())
+        }
     }
 }
